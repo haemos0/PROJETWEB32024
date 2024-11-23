@@ -2,7 +2,7 @@
 
 Cloner le repository  et accéder au dossier du projet:
  - git clone https://github.com/haemos0/PROJETWEB32024.git
- - cd cd .\PROJETWEB32024\
+ - cd .\PROJETWEB32024\
 
 Créer l'environnement virtuel python:
   - python -m venv venv
