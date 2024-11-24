@@ -6,7 +6,7 @@ Cloner le repository  et accéder au dossier du projet:
 
 Créer l'environnement virtuel python:
   - python -m venv venv
-  - source venv/bin/activate
+  - source venv/bin/activate (linux)
 
 Installer les dépendances :
   - cd .\venv\
