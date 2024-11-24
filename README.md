@@ -20,6 +20,7 @@ Lancer l'application:
   - flask run
 
 API appliquant les concepts de Flask
+https://www.youtube.com/watch?v=ez-zJRekuvs&t=219s
 
 
 Auteurs :
