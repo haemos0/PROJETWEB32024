@@ -2,8 +2,9 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS  # Ajout de CORS pour permettre l'interaction avec un frontend moderne
 
-# Initialisation de la base de données et des outils
+# Initialisation des outils et extensions
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
@@ -22,10 +23,11 @@ def create_app():
     # Configuration de l'application
     app.config.from_object("config.Config")  # Charger la configuration depuis config.py
     
-    # Initialiser les extensions avec l'application Flask
-    db.init_app(app)  # Initialisation correcte de l'instance SQLAlchemy
+    # Initialisation des extensions
+    db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
+    CORS(app)  # Activer les CORS pour permettre les requêtes frontend-backend
     
     # Enregistrement des blueprints
     with app.app_context():
