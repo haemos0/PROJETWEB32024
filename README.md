@@ -9,7 +9,6 @@ Créer l'environnement virtuel python:
   - source venv/bin/activate (linux)
 
 Installer les dépendances :
-  - cd .\venv\
   - pip install -r requirements.txt
 
 Lancer l'application:
