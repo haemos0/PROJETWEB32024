@@ -20,3 +20,12 @@ Lancer l'application:
   - flask run
 
 API appliquant les concepts de Flask
+
+
+Auteurs :
+
+Dilhan Fidan
+Hamza Akel
+Maxence Van Grunderbeeck
+Vasil Pop
+Haziq Muhammad
