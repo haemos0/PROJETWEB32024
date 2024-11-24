@@ -2,43 +2,40 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from .models import User, BlacklistedToken
 
-# Initialisation de la db et du token manager
+# Initialisation de la base de données et des outils
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
 
-"""
-Vérifie si le token est blacklisté (logout) 
-
-:param jwt_header: Header du token
-:param jwt_payload: Payload du token
-:return: True si token blacklisté, sinon false
-"""
+# Fonction pour vérifier si un token JWT est blacklisté
 @jwt.token_in_blocklist_loader
 def check_if_token_in_blacklist(jwt_header, jwt_payload):
+    from .models import BlacklistedToken  # Import local pour éviter les imports circulaires
     jti = jwt_payload['jti']
-    return BlacklistedToken.query.filter_by(token=jti).first() is not None
+    return db.session.query(db.exists().where(BlacklistedToken.token == jti)).scalar()
 
-"""
-créationde l'application
-
-:return: une instance de l'application
-"""
+# Fonction de création de l'application
 def create_app():
     app = Flask(__name__)
-    app.config.from_object("config.Config")
-    db.init_app(app)
+    
+    # Configuration de l'application
+    app.config.from_object("config.Config")  # Charger la configuration depuis config.py
+    
+    # Initialiser les extensions avec l'application Flask
+    db.init_app(app)  # Initialisation correcte de l'instance SQLAlchemy
     jwt.init_app(app)
     migrate.init_app(app, db)
     
+    # Enregistrement des blueprints
     with app.app_context():
         from .routes import main_bp
         from .auth import auth_bp
-
         app.register_blueprint(main_bp)
         app.register_blueprint(auth_bp)
 
+        # Import des modèles avant création des tables
+        from . import models
         db.create_all()
+
     return app
